@@ -101,5 +101,15 @@ public class CalcTest {
   void t16() {
     assertThat(Calc.run("(10 + 20)")).isEqualTo(30);
   }
+  @Test
+  @DisplayName("((10 + 20)) == 30")
+  void t17() {
+    assertThat(Calc.run("((10 + 20))")).isEqualTo(30);
+  }
+  @Test
+  @DisplayName("(((10 + 20))) == 30")
+  void t18() {
+    assertThat(Calc.run("(((10 + 20)))")).isEqualTo(30);
+  }
 
 }
