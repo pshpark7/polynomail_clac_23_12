@@ -2,17 +2,16 @@ package com.ll;
 
 public class Calc {
   public static int run(String exp) {
-    boolean needToMultiply = exp.contains("*");
-    boolean needToPlus = exp.contains("+");
+    boolean needToMultiply = exp.contains(" * ");
+    boolean needToPlus = exp.contains(" + ") || exp.contains(" - ");
 
     boolean needToCompound = needToPlus && needToMultiply;
 
     if (needToCompound) {
       String[] bits = exp.split(" \\+ ");
 
-      return Integer.parseInt(bits[0])+ run(bits[1]);
+      return Integer.parseInt(bits[0]) + run(bits[1]);
     }
-
 
 
     if (needToPlus) {
@@ -36,13 +35,15 @@ public class Calc {
         rs *= Integer.parseInt(bits[i]);
       }
       return rs;
-    } else
+    }
+
+
 
 
 
 
     throw new RuntimeException("처리할 수 있는 계산식이 아닙니다");
-  }
+}
 }
 //      if (bits[0].contains("\\+")) {
 //String[] bits2 = bits[0].split("//+");
