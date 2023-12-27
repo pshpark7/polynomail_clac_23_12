@@ -101,15 +101,41 @@ public class CalcTest {
   void t16() {
     assertThat(Calc.run("(10 + 20)")).isEqualTo(30);
   }
+
   @Test
   @DisplayName("((10 + 20)) == 30")
   void t17() {
     assertThat(Calc.run("((10 + 20))")).isEqualTo(30);
   }
+
   @Test
   @DisplayName("(((10 + 20))) == 30")
   void t18() {
     assertThat(Calc.run("(((10 + 20)))")).isEqualTo(30);
   }
 
+  @Test
+  @DisplayName("100 == 100")
+  void t19() {
+    assertThat(Calc.run("100")).isEqualTo(100);
+  }
+
+  @Test
+  @DisplayName("(100) == 100")
+  void t20() {
+    assertThat(Calc.run("(100)")).isEqualTo(100);
+  }
+
+  @Test
+  @DisplayName("((100)) == 100")
+  void t21() {
+    assertThat(Calc.run("((100))")).isEqualTo(100);
+  }
+
+  @Test
+  @DisplayName("(20 + 20) + 20 == 60")
+  void t22() {
+    assertThat(Calc.run("(20 + 20) + 20")).isEqualTo(60);
+  }
 }
+
