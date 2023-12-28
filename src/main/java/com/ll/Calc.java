@@ -30,10 +30,14 @@ public class Calc {
         }
       }
 
+      char operater = exp.charAt(splitPointIndex + 2);
+
       String firstExp = exp.substring(0, splitPointIndex + 1);
       String secondExp = exp.substring(splitPointIndex + 3);
 
-      return Calc.run(firstExp) + Calc.run(secondExp);
+      exp = Calc.run(firstExp) + " " + operater + " " + Calc.run(secondExp);
+
+      return Calc.run(exp);
 
     } else if (needToCompound) {
       String[] bits = exp.split(" \\+ ");
@@ -50,7 +54,6 @@ public class Calc {
       for (int i = 0; i < bits.length; i++) {
         sum += Integer.parseInt(bits[i]);
       }
-
       return sum;
     } else if (needToMultiply) {
       String[] bits = exp.split(" \\* ");
