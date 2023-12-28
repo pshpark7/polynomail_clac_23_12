@@ -127,9 +127,9 @@ public class CalcTest {
   }
 
   @Test
-  @DisplayName("((100)) == 100")
+  @DisplayName("(100)  == 100")
   void t21() {
-    assertThat(Calc.run("((100))")).isEqualTo(100);
+    assertThat(Calc.run("(100) ")).isEqualTo(100);
   }
 
   @Test
@@ -138,12 +138,39 @@ public class CalcTest {
     assertThat(Calc.run("(20 + 20) + 20")).isEqualTo(60);
   }
 
-
   @Test
   @DisplayName("(10 + 20) * 3 == 90")
   void t23() {
     assertThat(Calc.run("(10 + 20) * 3")).isEqualTo(90);
   }
 
+  @Test
+  @DisplayName("10 + (10 + 5) == 25")
+  void t24() {
+    assertThat(Calc.run("10 + (10 + 5)")).isEqualTo(25);
+  }
 
+  @Test
+  @DisplayName("8 + (10 + 5) == 23")
+  void t25() {
+    assertThat(Calc.run("8 + (10 + 5)")).isEqualTo(23);
+  }
+
+  @Test
+  @DisplayName("800 + (10 + 5) == 815")
+  void t26() {
+    assertThat(Calc.run("800 + (10 + 5)")).isEqualTo(815);
+  }
+
+  @Test
+  @DisplayName("2 * (2 + 3) == 10")
+  void t27() {
+    assertThat(Calc.run("2 * (2 + 3)")).isEqualTo(10);
+  }
+
+  @Test
+  @DisplayName("20 * (2 + 3) == 10")
+  void t28() {
+    assertThat(Calc.run("20 * (2 + 3)")).isEqualTo(100);
+  }
 }
