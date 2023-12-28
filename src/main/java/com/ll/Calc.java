@@ -11,9 +11,11 @@ public class Calc {
     exp = exp.trim(); // exp 의 좌우 공백 제거
     exp = stripOuterBracket(exp); //필요없는 괄호를 제거하는 함수 실행
 
-    if (isNegativeCaseBracket(exp)) { //exp가 -괄호로 시작하는가 ?
-      exp =exp.substring(1) + " * -1";
+    int[] pos = null;
+    while ((pos = findNegativeCaseBracket(exp)) != null) {
+      exp = changeNegativeBracket(exp, pos[0], pos[1]);
     }
+    exp = stripOuterBracket(exp);
 
     if (recursionDebug) {
       System.out.printf("exp(%d) : %s\n", runCallCount, exp);
@@ -75,28 +77,41 @@ public class Calc {
     throw new RuntimeException("처리할 수 있는 계산식이 아닙니다");
   }
 
-  private static boolean isNegativeCaseBracket(String exp) {
-    // -괄호로 시작하는지 판별
-    if (exp.startsWith("-(") == false) return false;
-    // -괄호로 감싸져 있다면 ~
-    int bracketCount = 0;
 
-    for (int i = 0; i < exp.length(); i++) {
-      char c = exp.charAt(i);
+  private static String changeNegativeBracket(String exp, int startPos, int endPos) {
+    String head = exp.substring(0, startPos);
+    String body = "(" + exp.substring(startPos + 1, endPos + 1) + " * -1)";
+    String tail = exp.substring(endPos + 1);
 
-      if (c == '(') {
-        bracketCount++;
-      } else if (c == ')') {
-        bracketCount--;
-      }
 
-      if (bracketCount == 0) { //괄호가 한번 열었다 닫히는 시점
-        if (exp.length() - 1 == i) return true;
-      }
-    }
-    return false;
+    exp = head + body + tail;
+
+    return exp;
   }
 
+  private static int[] findNegativeCaseBracket(String exp) {
+    for (int i = 0; i < exp.length() - 1; i++) {
+      if (exp.charAt(i) == '-' && exp.charAt(i + 1) == '(') {
+        // 어? 마이너스 괄호 찾았다
+        int bracketCount = 1;
+
+        for (int j = i + 2; j < exp.length(); j++) {
+          char c = exp.charAt(j);
+
+          if (c == '(') {
+            bracketCount++;
+          } else if (c == ')') {
+            bracketCount--;
+          }
+
+          if (bracketCount == 0) {
+            return new int[]{i, j};
+          }
+        }
+      }
+    }
+    return null;
+  }
 
   private static int findSplitPointIndexBy(String exp, char findChar) {
     int bracketCount = 0;
@@ -136,3 +151,17 @@ public class Calc {
     return exp.substring(outerBracketCount, exp.length() - outerBracketCount);
   }
 }
+//String exp = "-(8 + 2) * -(7 + 3) + 5";
+//
+//int startPos = 0;
+//int endPos = 7;
+//
+//String head = exp.substring(0, startPos);
+//String body = "(" + exp.substring(startPos + 1, endPos + 1) + " * -1)";
+//String tail = exp.substring(endPos + 1);
+//
+//    System.out.println("head : " + head);
+//    System.out.println("body : " + body);
+//    System.out.println("tail : " + tail);
+//
+//    System.out.println("전체 : " + head + body + tail);
