@@ -1,9 +1,19 @@
 package com.ll;
 
 public class Calc {
+  public static boolean recursionDebug = true; // 내가 디버그 모드를 켜겠다 할때는 true로 변경
+
+  public static int runCallCount = 0;
+
   public static int run(String exp) {
+    runCallCount++;
+
     exp = exp.trim(); // exp 의 좌우 공백 제거
     exp = stripOuterBracket(exp); //필요없는 괄호를 제거하는 함수 실행
+
+    if (recursionDebug) {
+      System.out.printf("exp(%d) : %s\n", runCallCount, exp);
+    }
 
 
     if (!exp.contains(" ")) return Integer.parseInt(exp); //연산기호가 없으면 string 타입의 exp를 정수로 변환하여 리턴
