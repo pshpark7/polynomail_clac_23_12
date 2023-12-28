@@ -138,17 +138,27 @@ public class Calc {
     return findSplitPointIndexBy(exp, '*');
   }
 
-  private static String stripOuterBracket(String exp) { // string exp의 필요없는 괄호들을 삭제하는 함수 생성
-    int outerBracketCount = 0;
+  private static String stripOuterBracket(String exp) {
+    if (exp.charAt(0) == '(' && exp.charAt(exp.length() - 1) == ')') {
+      int bracketCount = 0;
 
-    while (exp.charAt(outerBracketCount) == '(' && exp.charAt(exp.length() - 1 - outerBracketCount) == ')') {
-      outerBracketCount++;
+      for (int i = 0; i < exp.length(); i++) {
+        if (exp.charAt(i) == '(') {
+          bracketCount++;
+        } else if (exp.charAt(i) == ')') {
+          bracketCount--;
+        }
+
+        if (bracketCount == 0) {
+          if (exp.length() == i + 1) {
+            return stripOuterBracket(exp.substring(1, exp.length() - 1));
+          }
+
+          return exp;
+        }
+      }
     }
-
-    if (outerBracketCount == 0) return exp;
-
-
-    return exp.substring(outerBracketCount, exp.length() - outerBracketCount);
+    return exp;
   }
 }
 //String exp = "-(8 + 2) * -(7 + 3) + 5";
