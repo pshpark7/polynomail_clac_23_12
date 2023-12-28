@@ -173,4 +173,9 @@ public class CalcTest {
   void t28() {
     assertThat(Calc.run("20 * (2 + 3)")).isEqualTo(100);
   }
+  @Test
+  @DisplayName("-(10 + 5) == -15")
+  void t29() {
+    assertThat(Calc.run("-(10 + 5) ")).isEqualTo(-15);
+  }
 }

@@ -11,6 +11,10 @@ public class Calc {
     exp = exp.trim(); // exp 의 좌우 공백 제거
     exp = stripOuterBracket(exp); //필요없는 괄호를 제거하는 함수 실행
 
+    if (isNegativeCaseBracket(exp)) { //exp가 -괄호로 시작하는가 ?
+      exp =exp.substring(1) + " * -1";
+    }
+
     if (recursionDebug) {
       System.out.printf("exp(%d) : %s\n", runCallCount, exp);
     }
@@ -70,6 +74,29 @@ public class Calc {
 
     throw new RuntimeException("처리할 수 있는 계산식이 아닙니다");
   }
+
+  private static boolean isNegativeCaseBracket(String exp) {
+    // -괄호로 시작하는지 판별
+    if (exp.startsWith("-(") == false) return false;
+    // -괄호로 감싸져 있다면 ~
+    int bracketCount = 0;
+
+    for (int i = 0; i < exp.length(); i++) {
+      char c = exp.charAt(i);
+
+      if (c == '(') {
+        bracketCount++;
+      } else if (c == ')') {
+        bracketCount--;
+      }
+
+      if (bracketCount == 0) { //괄호가 한번 열었다 닫히는 시점
+        if (exp.length() - 1 == i) return true;
+      }
+    }
+    return false;
+  }
+
 
   private static int findSplitPointIndexBy(String exp, char findChar) {
     int bracketCount = 0;
