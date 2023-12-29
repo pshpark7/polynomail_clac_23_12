@@ -32,7 +32,7 @@ public class Calc {
     boolean needToSplit = exp.contains("(") || exp.contains(")");
     // +, *의 연산기호가 동시에 들어가있는 식, 괄호로 감싸 연산의 순서가 있는 식을 처리하기 위한 구분
     if (needToSplit) {  // 괄호로 감싸 연산의 순서가 있는 식을 처리하기 위한 내용
-
+      exp = exp.replaceAll("- ","\\+ -");
       int splitPointIndex = findSplitPointIndex(exp); //괄호 안의 식을 처리하고 그 밖에 연산기호를 통해 식을 처리해야하기 때문에
       // 괄호 밖의 연산기호의 index를 찾는 함수 실행
 
@@ -47,7 +47,7 @@ public class Calc {
     } else if (needToCompound) { // +, *의 연산기호가 동시에 들어가있는 식을 처리하기 위한 내용
       String[] bits = exp.split(" \\+ ");
 
-      return Integer.parseInt(bits[0]) + Calc.run(bits[1]); // TODO
+      return Calc.run(bits[0]) + Calc.run(bits[1]); // TODO
     }
     // +를 기준으로 식을 쪼개고, *가 들어간 식을 재귀함수를 통해 따로 실행하여 그 값을 얻어내고, + 왼쪽의 수를 합하여 결과 도출
     // + 왼쪽에 곱하는 식이 있거나 곱으로 이루어진 식 두개를 +로 합하는 식 등은 구현할 수없는 내용
