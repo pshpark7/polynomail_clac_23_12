@@ -1,11 +1,17 @@
 package com.ll;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class Calc {
   public static boolean recursionDebug = true; // 내가 디버그 모드를 켜겠다 할때는 true로 변경
 
   public static int runCallCount = 0;
 
   public static int run(String exp) {
+    return _run(exp, 0);
+  }
+  public static int _run(String exp, int depth) {
     runCallCount++;
 
     exp = exp.trim(); // exp 의 좌우 공백 제거
@@ -47,7 +53,9 @@ public class Calc {
     } else if (needToCompound) { // +, *의 연산기호가 동시에 들어가있는 식을 처리하기 위한 내용
       String[] bits = exp.split(" \\+ ");
 
-      return Calc.run(bits[0]) + Calc.run(bits[1]); // TODO
+      String newExp = Arrays.stream(bits).mapToInt(e -> Calc.run(e)).mapToObj(e -> e + "").collect(Collectors.joining(" + "));
+
+      return Calc._run(newExp, depth + 1);
     }
     // +를 기준으로 식을 쪼개고, *가 들어간 식을 재귀함수를 통해 따로 실행하여 그 값을 얻어내고, + 왼쪽의 수를 합하여 결과 도출
     // + 왼쪽에 곱하는 식이 있거나 곱으로 이루어진 식 두개를 +로 합하는 식 등은 구현할 수없는 내용
